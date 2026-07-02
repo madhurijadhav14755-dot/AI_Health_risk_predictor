@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow-lg border-0">
+
+                <div class="card-header bg-success text-white text-success">
+                    <h2>AI Health Risk Prediction</h2>
+                    <p class="mb-0">Enter your health details below</p>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label>Age</label>
+                                <input type="number" class="form-control" name="age" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Gender</label>
+                                <select class="form-control" name="gender">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Height (cm)</label>
+                                <input type="number" class="form-control" name="height" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Weight (kg)</label>
+                                <input type="number" class="form-control" name="weight" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Blood Pressure</label>
+                                <input type="text" class="form-control" name="blood_pressure">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Blood Sugar</label>
+                                <input type="number" class="form-control" name="sugar">
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label>Heart Rate</label>
+                                <input type="number" class="form-control" name="heart_rate">
+                            </div>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">
+                            Predict Health Risk
+                        </button>
+
+                    </form>
+
+                    {% if result %}
+                    <div class="alert alert-info text-center mt-4">
+                        <h4>Prediction Result</h4>
+                        <strong>{{ result }}</strong>
+                    </div>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{% url 'home' %}" class="btn btn-secondary">
+                    Back to Dashboard
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
