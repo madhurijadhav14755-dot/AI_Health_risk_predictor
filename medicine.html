@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medicine Information</title>
+</head>
+
+<body>
+
+<h2>Medicine Search</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input type="text" name="medicine" placeholder="Enter Medicine Name">
+
+    <button type="submit">Search</button>
+</form>
+
+
+{% if data %}
+
+<h3>Result</h3>
+
+<p>Name: {{data.name}}</p>
+
+<p>Purpose: {{data.purpose}}</p>
+
+<p>Warning: {{data.warning}}</p>
+
+<p>{{data.error}}</p>
+
+{% endif %}
+
+</body>
+</html>
