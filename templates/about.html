@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- =========================
+     ABOUT HERO SECTION
+========================= -->
+<section class="hero">
+
+    <div class="hero-left">
+
+        <span class="badge">
+            About Our Project
+        </span>
+
+        <h1>
+            AI Health
+            <span>Risk Predictor</span>
+        </h1>
+
+        <p>
+            Our AI Health Risk Predictor is a smart web application that analyzes user health data
+            such as age, BMI, glucose level, blood pressure, and heart rate to predict possible health risks
+            using Artificial Intelligence techniques.
+        </p>
+
+        <a href="{% url 'prediction' %}" class="btn">Try Prediction</a>
+
+    </div>
+
+    <div class="hero-right">
+        <img src="{% static 'images/doctor.jpg' %}" alt="Doctor Image" style="width:100%; max-width:450px;">
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ABOUT FEATURES SECTION
+========================= -->
+<section class="dashboard">
+
+    <div class="card">
+        <h3>🎯 Our Mission</h3>
+        <p>
+            To provide early health risk prediction so users can take preventive actions
+            before serious health issues occur.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>🧠 Technology Used</h3>
+        <p>
+            Django, Python, Machine Learning, HTML, CSS, and modern UI design principles.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>⚡ How It Works</h3>
+        <p>
+            Users enter health parameters → AI model analyzes data → system predicts risk level instantly.
+        </p>
+    </div>
+
+</section>
+
+{% endblock %}

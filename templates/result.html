@@ -1,53 +1,132 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Prediction Result</title>
 
-{% block content %}
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f5f5f5;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            margin:0;
+        }
 
-<div class="container py-5">
+        .box{
+            width:500px;
+            background:white;
+            padding:30px;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,0.2);
+            text-align:center;
+        }
 
-    <div class="row justify-content-center">
+        h1{
+            margin-bottom:20px;
+        }
 
-        <div class="col-md-6">
+        .low{
+            color:green;
+            font-size:28px;
+            font-weight:bold;
+        }
 
-            <div class="card shadow-lg border-0">
+        .medium{
+            color:orange;
+            font-size:28px;
+            font-weight:bold;
+        }
 
-                <div class="card-header bg-success text-white text-center">
-                    <h2>AI Health Risk Prediction Result</h2>
-                </div>
+        .high{
+            color:red;
+            font-size:28px;
+            font-weight:bold;
+        }
 
-                <div class="card-body text-center p-5">
+        table{
+            width:100%;
+            margin-top:20px;
+            border-collapse:collapse;
+        }
 
-                    <h4>Your Health Risk</h4>
+        td{
+            border:1px solid #ddd;
+            padding:12px;
+            text-align:left;
+        }
 
-                    <h1 class="text-danger fw-bold mt-3">
-                        {{ result }}
-                    </h1>
+        .btn{
+            margin-top:25px;
+        }
 
-                    <p class="mt-4 text-muted">
-                        This prediction is generated based on the health information you entered.
-                    </p>
+        .btn a{
+            text-decoration:none;
+            background:#007bff;
+            color:white;
+            padding:10px 18px;
+            border-radius:5px;
+            margin:5px;
+            display:inline-block;
+        }
 
-                    <div class="mt-4">
-                        <a href="{% url 'prediction' %}" class="btn btn-success me-2">
-                            Predict Again
-                        </a>
+        .btn a:hover{
+            background:#0056b3;
+        }
+    </style>
 
-                        <a href="{% url 'home' %}" class="btn btn-secondary">
-                            Back to Dashboard
-                        </a>
+</head>
+<body>
 
-                        <a href="{% url 'logout' %}" class="btn btn-danger ms-2">
-                            Logout
-                        </a>
-                    </div>
+<div class="box">
 
-                </div>
+    <h1>Health Prediction Result</h1>
 
-            </div>
+    {% if risk == "Low" %}
+        <p class="low">🟢 Low Risk</p>
 
-        </div>
+    {% elif risk == "Medium" %}
+        <p class="medium">🟡 Medium Risk</p>
 
-    </div>
+    {% elif risk == "High" %}
+        <p class="high">🔴 High Risk</p>
 
+    {% else %}
+        <p>No Prediction Available</p>
+    {% endif %}
+
+    <table>
+
+        <tr>
+            <td><b>Health Score</b></td>
+            <td>{{ score }}%</td>
+        </tr>
+
+        <tr>
+            <td><b>BMI</b></td>
+            <td>{{ bmi }}</td>
+        </tr>
+
+        <tr>
+            <td><b>Status</b></td>
+            <td>{{ status }}</td>
+        </tr>
+
+        <tr>
+            <td><b>Recommendation</b></td>
+            <td>{{ recommendation }}</td>
+        </tr>
+
+       
+    </table>
+<div class="btn">
+    <a href="{% url 'prediction' %}">Predict Again</a>
+    <a href="{% url 'medicine' %}">Check Medicine Information</a>
+    <a href="{% url 'home' %}">Home</a>
 </div>
 
-{% endblock %}
+</body>
+</html>

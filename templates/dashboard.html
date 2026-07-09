@@ -3,113 +3,145 @@
 
 {% block content %}
 
-<div class="container py-5">
+<!-- ================= HERO SECTION ================= -->
 
-    <!-- Hero Section -->
-    <div class="hero-section p-5 rounded shadow">
+<section class="hero">
 
-        <div class="row align-items-center">
+    <div class="hero-left">
 
-            <!-- Left Side -->
-            <div class="col-md-6">
+        <span class="badge">User Dashboard</span>
 
-                <span class="badge bg-success mb-3">
-                    AI POWERED HEALTHCARE
-                </span>
+        <h1>
+            Welcome to
+            <span>AI Dashboard</span>
+        </h1>
 
-                <h1 class="display-4 fw-bold text-dark">
-                    AI Health Risk Predictor System
-                </h1>
+        <p>
+            View all your health predictions, monitor your AI health reports,
+            and keep track of your risk analysis in one place.
+        </p>
 
-                <p class="lead mt-3 text-dark">
-                    Predict your health risk using Artificial Intelligence.
-                    Monitor Blood Pressure, Blood Sugar, Heart Rate and get instant AI-based health insights.
-                </p>
-
-                <a href="{% url 'prediction' %}" class="btn btn-success btn-lg mt-3">
-                    Get Started
-                </a>
-
-            </div>
-
-            <!-- Right Side -->
-            <div class="col-md-6 text-center">
-
-                <img src="{% static 'images/doctor.jpg' %}" alt="Doctor"
-                     class="img-fluid" style="max-height:450px;">
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- Features -->
-    <div class="mt-5">
-
-        <h2 class="text-center text-success mb-5">
-            Our Key Features
-        </h2>
-
-        <div class="row">
-
-            <div class="col-md-3 mb-4">
-                <div class="card shadow h-100 border-0">
-                    <div class="card-body text-center">
-                        <img src="{% static 'images/heart.png' %}" width="60">
-                        <h5 class="mt-3">Heart Rate</h5>
-                        <p>Monitor your heart rate using AI.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 mb-4">
-                <div class="card shadow h-100 border-0">
-                    <div class="card-body text-center">
-                        <img src="{% static 'images/bp.png' %}" width="60">
-                        <h5 class="mt-3">Blood Pressure</h5>
-                        <p>Analyze blood pressure and health risk.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 mb-4">
-                <div class="card shadow h-100 border-0">
-                    <div class="card-body text-center">
-                        <img src="{% static 'images/sugar.png' %}" width="60">
-                        <h5 class="mt-3">Blood Sugar</h5>
-                        <p>Track blood sugar levels with AI.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 mb-4">
-                <div class="card shadow h-100 border-0">
-                    <div class="card-body text-center">
-                        <img src="{% static 'images/ai.png' %}" width="60">
-                        <h5 class="mt-3">AI Assessment</h5>
-                        <p>Get instant AI health risk prediction.</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- Buttons -->
-    <div class="text-center mt-4">
-
-        <a href="{% url 'prediction' %}" class="btn btn-success btn-lg">
-            Predict Health Risk
-        </a>
-
-        <a href="{% url 'logout' %}" class="btn btn-danger btn-lg ms-2">
-            Logout
+        <a href="{% url 'prediction' %}" class="btn">
+            New Prediction
         </a>
 
     </div>
 
-</div>
+    <div class="hero-right">
+
+        <img src="{% static 'images/dashboard.png' %}"
+             alt="Dashboard"
+             class="hero-img">
+
+    </div>
+
+</section>
+
+<!-- ================= DASHBOARD STATS ================= -->
+
+<section class="dashboard">
+
+    <div class="card">
+        <h3>📊 Total Predictions</h3>
+        <h2>{{ total_predictions }}</h2>
+    </div>
+
+    <div class="card">
+        <h3>🟢 Low Risk</h3>
+        <h2>{{ low_risk }}</h2>
+    </div>
+
+    <div class="card">
+        <h3>🟠 Medium Risk</h3>
+        <h2>{{ medium_risk }}</h2>
+    </div>
+
+    <div class="card">
+        <h3>🔴 High Risk</h3>
+        <h2>{{ high_risk }}</h2>
+    </div>
+
+</section>
+
+<!-- ================= PREDICTION HISTORY ================= -->
+
+<section class="prediction-box">
+
+    <h2>Prediction History</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Age</th>
+                <th>BMI</th>
+                <th>Glucose</th>
+                <th>Blood Pressure</th>
+                <th>Prediction</th>
+                <th>Date</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% if predictions %}
+
+                {% for p in predictions %}
+
+                <tr>
+
+                    <td>{{ p.age }}</td>
+
+                    <td>{{ p.bmi }}</td>
+
+                    <td>{{ p.glucose }}</td>
+
+                    <td>{{ p.blood_pressure }}</td>
+
+                    <td>
+
+                        {% if p.prediction == "LOW RISK" %}
+
+                            🟢 {{ p.prediction }}
+
+                        {% elif p.prediction == "MEDIUM RISK" %}
+
+                            🟠 {{ p.prediction }}
+
+                        {% else %}
+
+                            🔴 {{ p.prediction }}
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>{{ p.created_at|date:"d M Y" }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            {% else %}
+
+                <tr>
+
+                    <td colspan="6">
+                        No Prediction History Available
+                    </td>
+
+                </tr>
+
+            {% endif %}
+
+        </tbody>
+
+    </table>
+
+</section>
 
 {% endblock %}

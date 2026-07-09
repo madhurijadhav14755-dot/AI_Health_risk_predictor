@@ -1,94 +1,82 @@
-{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Prediction</title>
 
-{% block content %}
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background: white;
+            margin: 0;
+            padding: 30px;
+        }
 
-<div class="container py-5">
+        h2{
+            text-align:center;
+            margin-bottom:20px;
+        }
 
-    <div class="row justify-content-center">
+        form{
+            max-width:400px;
+            margin:auto;
+        }
 
-        <div class="col-md-8">
+        input, select{
+            width:100%;
+            padding:10px;
+            margin:8px 0;
+            border:1px solid #ccc;
+            border-radius:5px;
+            box-sizing:border-box;
+        }
 
-            <div class="card shadow-lg border-0">
+        button{
+            width:100%;
+            padding:10px;
+            background:#2d7ef7;
+            color:white;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+        }
 
-                <div class="card-header bg-success text-white text-success">
-                    <h2>AI Health Risk Prediction</h2>
-                    <p class="mb-0">Enter your health details below</p>
-                </div>
+        button:hover{
+            background:#1f66d1;
+        }
+    </style>
+</head>
+<body>
 
-                <div class="card-body p-4">
+<h2>Health Prediction</h2>
 
-                    <form method="POST">
-                        {% csrf_token %}
+<form method="POST">
+    {% csrf_token %}
 
-                        <div class="row">
+    <input type="number" name="age" placeholder="Age" required>
 
-                            <div class="col-md-6 mb-3">
-                                <label>Age</label>
-                                <input type="number" class="form-control" name="age" required>
-                            </div>
+    <select name="gender" required>
+        <option value="">Select Gender</option>
+        <option>Male</option>
+        <option>Female</option>
+    </select>
 
-                            <div class="col-md-6 mb-3">
-                                <label>Gender</label>
-                                <select class="form-control" name="gender">
-                                    <option>Male</option>
-                                    <option>Female</option>
-                                </select>
-                            </div>
+    <input type="number" name="height" placeholder="Height (cm)" required>
+    <input type="number" name="weight" placeholder="Weight (kg)" required>
+    <select name="blood_pressure" required>
+    <option value="">Select Blood Pressure</option>
+    <option value="Normal">Normal</option>
+    <option value="High">High</option>
+</select>
+    <input type="number" name="sugar_level" placeholder="Blood Sugar" required>
+    <input type="number" name="heart_rate" placeholder="Heart Rate" required>
 
-                            <div class="col-md-6 mb-3">
-                                <label>Height (cm)</label>
-                                <input type="number" class="form-control" name="height" required>
-                            </div>
+    <button type="submit">
+        Predict
+    </button>
+</form>
 
-                            <div class="col-md-6 mb-3">
-                                <label>Weight (kg)</label>
-                                <input type="number" class="form-control" name="weight" required>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label>Blood Pressure</label>
-                                <input type="text" class="form-control" name="blood_pressure">
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label>Blood Sugar</label>
-                                <input type="number" class="form-control" name="sugar">
-                            </div>
-
-                            <div class="col-md-12 mb-3">
-                                <label>Heart Rate</label>
-                                <input type="number" class="form-control" name="heart_rate">
-                            </div>
-
-                        </div>
-
-                        <button type="submit" class="btn btn-success w-100">
-                            Predict Health Risk
-                        </button>
-
-                    </form>
-
-                    {% if result %}
-                    <div class="alert alert-info text-center mt-4">
-                        <h4>Prediction Result</h4>
-                        <strong>{{ result }}</strong>
-                    </div>
-                    {% endif %}
-
-                </div>
-
-            </div>
-
-            <div class="text-center mt-4">
-                <a href="{% url 'home' %}" class="btn btn-secondary">
-                    Back to Dashboard
-                </a>
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-{% endblock %}
+</body>
+</html>

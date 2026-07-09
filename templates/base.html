@@ -8,64 +8,127 @@
 
     <title>AI Health Risk Predictor</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-success shadow">
+<!-- ================= HEADER ================= -->
+<header>
+    <nav class="navbar">
 
-    <div class="container">
+        <!-- LOGO -->
+        <div class="logo">
+            <i class="fa-solid fa-heart-pulse"></i>
+            <span>AI Health Predictor</span>
+        </div>
 
-        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-            <img src="{% static 'images/logo.jpg' %}" alt="Logo" width="40" height="40" class="me-2">
-            <b>AI Health Risk Predictor</b>
-        </a>
-
-        <div class="ms-auto">
-
-            <a href="{% url 'home' %}" class="btn btn-outline-light me-2">
-                Home
-            </a>
+        <!-- RIGHT BUTTONS -->
+        <div class="navbar-right">
 
             {% if user.is_authenticated %}
 
-                <a href="{% url 'prediction' %}" class="btn btn-light me-2">
-                    Prediction
+                <a href="{% url 'register' %}" class="btn">
+                    Register
                 </a>
 
-                <a href="{% url 'logout' %}" class="btn btn-danger">
-                    Logout
+                <a href="{% url 'login' %}" class="btn btn-outline">
+                    Login
                 </a>
 
             {% else %}
 
-                <a href="{% url 'login' %}" class="btn btn-outline-light me-2">
-                    Login
+                <a href="{% url 'prediction' %}" class="btn">
+                    Prediction
                 </a>
 
-                <a href="{% url 'register' %}" class="btn btn-warning">
-                    Register
+                <a href="{% url 'logout' %}" class="btn btn-outline">
+                    Logout
                 </a>
 
             {% endif %}
 
         </div>
 
+    </nav>
+</header>
+
+<!-- ================= MESSAGES ================= -->
+{% if messages %}
+<div class="message-container">
+
+    {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+</div>
+{% endif %}
+
+<!-- ================= PAGE CONTENT ================= -->
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-box">
+            <h3>AI Health Predictor</h3>
+            <p>
+                AI Health Risk Predictor helps users estimate their health risk using Artificial Intelligence.
+                Stay healthy and make informed decisions.
+            </p>
+        </div>
+
+        <div class="footer-box">
+
+            <h3>Quick Links</h3>
+
+            <ul>
+
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'prediction' %}">Prediction</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+
+            </ul>
+
+        </div>
+
+        <div class="footer-box">
+
+            <h3>Contact</h3>
+
+            <p><i class="fa-solid fa-envelope"></i> support@aihealth.com</p>
+            <p><i class="fa-solid fa-phone"></i> +91 9876543210</p>
+            <p><i class="fa-solid fa-location-dot"></i> Maharashtra, India</p>
+
+        </div>
+
     </div>
 
-</nav>
+    <div class="footer-bottom">
+        <p>© 2026 AI Health Risk Predictor. All Rights Reserved.</p>
+    </div>
 
-{% block content %}
-{% endblock %}
-
-<footer class="bg-dark text-white text-center p-3 mt-5">
-    © 2026 AI Health Risk Predictor System | Developed using Django & Bootstrap
 </footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

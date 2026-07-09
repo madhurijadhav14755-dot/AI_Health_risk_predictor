@@ -1,43 +1,104 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
-<div class="container py-5">
+<!-- ================= HERO SECTION ================= -->
 
-    <div class="row justify-content-center">
+<section class="hero">
 
-        <div class="col-md-6">
+    <div class="hero-left">
 
-            <div class="card shadow-lg border-0 text-center">
+        <span class="badge">
+            Registration Complete
+        </span>
 
-                <div class="card-header bg-success text-white">
-                    <h2>Registration Successful</h2>
-                </div>
+        <h1>
+            Account
+            <span>Created Successfully 🎉</span>
+        </h1>
 
-                <div class="card-body p-5">
+        <p>
+            Congratulations! Your account has been created successfully.
+            You can now log in and start using the AI Health Risk Predictor
+            to analyze your health risk.
+        </p>
 
-                    <h1 class="text-success">✅</h1>
-
-                    <h3 class="mt-3">
-                        Your account has been created successfully.
-                    </h3>
-
-                    <p class="text-muted mt-3">
-                        You can now log in and use the AI Health Risk Predictor System.
-                    </p>
-
-                    <a href="{% url 'login' %}" class="btn btn-success btn-lg mt-3">
-                        Go to Login
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
+        <a href="{% url 'login' %}" class="btn">
+            Login Now
+        </a>
 
     </div>
 
-</div>
+    <div class="hero-right">
+
+        <img src="{% static 'images/success.png' %}"
+             alt="Success"
+             class="hero-img">
+
+    </div>
+
+</section>
+
+<!-- ================= SUCCESS INFORMATION ================= -->
+
+<section class="dashboard">
+
+    <div class="card">
+
+        <h3>✅ Registration Successful</h3>
+
+        <p>
+            Your account has been successfully registered in the system.
+            You can now securely log in using your username and password.
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <h3>🧠 AI Health Prediction</h3>
+
+        <p>
+            After logging in, you can enter your health details
+            and receive instant AI-based health risk predictions.
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <h3>📊 Personal Dashboard</h3>
+
+        <p>
+            Track your prediction history, monitor your health risk,
+            and access all your reports from one dashboard.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ================= CALL TO ACTION ================= -->
+
+<section class="result-section">
+
+    <div class="result-card">
+
+        <h2>Ready to Get Started?</h2>
+
+        <p>
+            Click the button below to log in and begin your AI Health Risk Prediction journey.
+        </p>
+
+        <br>
+
+        <a href="{% url 'login' %}" class="btn">
+            Go to Login
+        </a>
+
+    </div>
+
+</section>
 
 {% endblock %}
