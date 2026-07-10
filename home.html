@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div class="hero-left">
+
+        <span class="badge">
+            AI Powered Healthcare
+        </span>
+
+        <h1>
+            AI Health
+            <span>Risk Predictor</span>
+        </h1>
+
+        <p>
+            Predict your health risk using Artificial Intelligence and Machine Learning.
+            Enter your health details and receive instant prediction.
+        </p>
+
+        <!-- FIXED FLOW BUTTON -->
+        <a href="{% url 'register' %}" class="btn">
+            Get Started
+        </a>
+
+    </div>
+
+    <div class="hero-center">
+        <img src="{% static 'images/doctor.jpg' %}" class="hero-img">
+    </div>
+
+</section>
+
+<!-- FEATURES -->
+<section class="dashboard">
+
+    <h2 class="section-title">Our Features</h2>
+
+    <div class="card">
+        <h3>🧠 AI Analysis</h3>
+        <p>Machine Learning model analyzes your health data.</p>
+    </div>
+
+    <div class="card">
+        <h3>⚡ Instant Prediction</h3>
+        <p>Get result within seconds.</p>
+    </div>
+
+    <div class="card">
+        <h3>🔒 Secure Data</h3>
+        <p>Protected using Django authentication.</p>
+    </div>
+
+</section>
+
+{% endblock %}

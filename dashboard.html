@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ================= HERO SECTION ================= -->
+
+<section class="hero">
+
+    <div class="hero-left">
+
+        <span class="badge">User Dashboard</span>
+
+        <h1>
+            Welcome to
+            <span>AI Dashboard</span>
+        </h1>
+
+        <p>
+            View all your health predictions, monitor your AI health reports,
+            and keep track of your risk analysis in one place.
+        </p>
+
+        <a href="{% url 'prediction' %}" class="btn">
+            New Prediction
+        </a>
+
+    </div>
+
+    <div class="hero-right">
+
+        <img src="{% static 'images/dashboard.png' %}"
+             alt="Dashboard"
+             class="hero-img">
+
+    </div>
+
+</section>
+
+<!-- ================= DASHBOARD STATS ================= -->
+
+<section class="dashboard">
+
+    <div class="card">
+        <h3>📊 Total Predictions</h3>
+        <h2>{{ total_predictions }}</h2>
+    </div>
+
+    <div class="card">
+        <h3>🟢 Low Risk</h3>
+        <h2>{{ low_risk }}</h2>
+    </div>
+
+    <div class="card">
+        <h3>🟠 Medium Risk</h3>
+        <h2>{{ medium_risk }}</h2>
+    </div>
+
+    <div class="card">
+        <h3>🔴 High Risk</h3>
+        <h2>{{ high_risk }}</h2>
+    </div>
+
+</section>
+
+<!-- ================= PREDICTION HISTORY ================= -->
+
+<section class="prediction-box">
+
+    <h2>Prediction History</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Age</th>
+                <th>BMI</th>
+                <th>Glucose</th>
+                <th>Blood Pressure</th>
+                <th>Prediction</th>
+                <th>Date</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% if predictions %}
+
+                {% for p in predictions %}
+
+                <tr>
+
+                    <td>{{ p.age }}</td>
+
+                    <td>{{ p.bmi }}</td>
+
+                    <td>{{ p.glucose }}</td>
+
+                    <td>{{ p.blood_pressure }}</td>
+
+                    <td>
+
+                        {% if p.prediction == "LOW RISK" %}
+
+                            🟢 {{ p.prediction }}
+
+                        {% elif p.prediction == "MEDIUM RISK" %}
+
+                            🟠 {{ p.prediction }}
+
+                        {% else %}
+
+                            🔴 {{ p.prediction }}
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>{{ p.created_at|date:"d M Y" }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            {% else %}
+
+                <tr>
+
+                    <td colspan="6">
+                        No Prediction History Available
+                    </td>
+
+                </tr>
+
+            {% endif %}
+
+        </tbody>
+
+    </table>
+
+</section>
+
+{% endblock %}
