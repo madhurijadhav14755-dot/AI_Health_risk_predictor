@@ -1,35 +1,69 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Medicine Information</title>
-</head>
+{% extends 'base.html' %}
+{% load static %}
 
-<body>
+{% block content %}
 
-<h2>Medicine Search</h2>
+<section class="result-section">
 
-<form method="POST">
-    {% csrf_token %}
+    <div class="result-card fade-in">
 
-    <input type="text" name="medicine" placeholder="Enter Medicine Name">
+        <h2>Medicine Information</h2>
 
-    <button type="submit">Search</button>
-</form>
+        <form method="POST">
 
+            {% csrf_token %}
 
-{% if data %}
+            <div class="form-group">
+                <input
+                    type="text"
+                    name="medicine"
+                    placeholder="Enter Medicine Name"
+                    required>
+            </div>
 
-<h3>Result</h3>
+            <button type="submit">
+                Search Medicine
+            </button>
 
-<p>Name: {{data.name}}</p>
+        </form>
 
-<p>Purpose: {{data.purpose}}</p>
+        {% if data %}
 
-<p>Warning: {{data.warning}}</p>
+            <table class="mt-3">
 
-<p>{{data.error}}</p>
+                <tr>
+                    <th>Field</th>
+                    <th>Information</th>
+                </tr>
 
-{% endif %}
+                <tr>
+                    <td><b>Name</b></td>
+                    <td>{{ data.name }}</td>
+                </tr>
 
-</body>
-</html>
+                <tr>
+                    <td><b>Purpose</b></td>
+                    <td>{{ data.purpose }}</td>
+                </tr>
+
+                <tr>
+                    <td><b>Warning</b></td>
+                    <td>{{ data.warning }}</td>
+                </tr>
+
+                {% if data.error %}
+                <tr>
+                    <td><b>Status</b></td>
+                    <td>{{ data.error }}</td>
+                </tr>
+                {% endif %}
+
+            </table>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,132 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Prediction Result</title>
+{% extends 'base.html' %}
+{% load static %}
 
-    <style>
-        body{
-            font-family: Arial, sans-serif;
-            background:#f5f5f5;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            height:100vh;
-            margin:0;
-        }
+{% block content %}
 
-        .box{
-            width:500px;
-            background:white;
-            padding:30px;
-            border-radius:10px;
-            box-shadow:0 0 10px rgba(0,0,0,0.2);
-            text-align:center;
-        }
+<section class="result-section">
 
-        h1{
-            margin-bottom:20px;
-        }
+    <div class="result-card zoom-in">
 
-        .low{
-            color:green;
-            font-size:28px;
-            font-weight:bold;
-        }
+        <h2>Health Prediction Result</h2>
 
-        .medium{
-            color:orange;
-            font-size:28px;
-            font-weight:bold;
-        }
+        {% if risk == "Low" %}
+            <h3 style="color:green;">🟢 Low Risk</h3>
 
-        .high{
-            color:red;
-            font-size:28px;
-            font-weight:bold;
-        }
+        {% elif risk == "Medium" %}
+            <h3 style="color:orange;">🟡 Medium Risk</h3>
 
-        table{
-            width:100%;
-            margin-top:20px;
-            border-collapse:collapse;
-        }
+        {% elif risk == "High" %}
+            <h3 style="color:red;">🔴 High Risk</h3>
 
-        td{
-            border:1px solid #ddd;
-            padding:12px;
-            text-align:left;
-        }
+        {% else %}
+            <h3>No Prediction Available</h3>
+        {% endif %}
 
-        .btn{
-            margin-top:25px;
-        }
+        <table>
 
-        .btn a{
-            text-decoration:none;
-            background:#007bff;
-            color:white;
-            padding:10px 18px;
-            border-radius:5px;
-            margin:5px;
-            display:inline-block;
-        }
+            <tr>
+                <th>Parameter</th>
+                <th>Result</th>
+            </tr>
 
-        .btn a:hover{
-            background:#0056b3;
-        }
-    </style>
+            <tr>
+                <td><b>Health Score</b></td>
+                <td>{{ score }}%</td>
+            </tr>
 
-</head>
-<body>
+            <tr>
+                <td><b>BMI</b></td>
+                <td>{{ bmi }}</td>
+            </tr>
 
-<div class="box">
+            <tr>
+                <td><b>Status</b></td>
+                <td>{{ status }}</td>
+            </tr>
 
-    <h1>Health Prediction Result</h1>
+            <tr>
+                <td><b>Recommendation</b></td>
+                <td>{{ recommendation }}</td>
+            </tr>
 
-    {% if risk == "Low" %}
-        <p class="low">🟢 Low Risk</p>
+        </table>
 
-    {% elif risk == "Medium" %}
-        <p class="medium">🟡 Medium Risk</p>
+        <div class="mt-3">
 
-    {% elif risk == "High" %}
-        <p class="high">🔴 High Risk</p>
+            <a href="{% url 'prediction' %}" class="btn">
+                Predict Again
+            </a>
 
-    {% else %}
-        <p>No Prediction Available</p>
-    {% endif %}
+            <a href="{% url 'medicine' %}" class="btn">
+                Medicine Info
+            </a>
 
-    <table>
+            <a href="{% url 'home' %}" class="btn">
+                Home
+            </a>
 
-        <tr>
-            <td><b>Health Score</b></td>
-            <td>{{ score }}%</td>
-        </tr>
+        </div>
 
-        <tr>
-            <td><b>BMI</b></td>
-            <td>{{ bmi }}</td>
-        </tr>
+    </div>
 
-        <tr>
-            <td><b>Status</b></td>
-            <td>{{ status }}</td>
-        </tr>
+</section>
 
-        <tr>
-            <td><b>Recommendation</b></td>
-            <td>{{ recommendation }}</td>
-        </tr>
-
-       
-    </table>
-<div class="btn">
-    <a href="{% url 'prediction' %}">Predict Again</a>
-    <a href="{% url 'medicine' %}">Check Medicine Information</a>
-    <a href="{% url 'home' %}">Home</a>
-</div>
-
-</body>
-</html>
+{% endblock %}

@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,60 +9,63 @@
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-    <!-- Fonts -->
+    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
 </head>
 
 <body>
 
 <!-- ================= HEADER ================= -->
+
 <header>
+
     <nav class="navbar">
 
-        <!-- LOGO -->
         <div class="logo">
             <i class="fa-solid fa-heart-pulse"></i>
             <span>AI Health Predictor</span>
         </div>
 
-        <!-- RIGHT BUTTONS -->
         <div class="navbar-right">
 
-            {% if user.is_authenticated %}
+{% if request.resolver_match.url_name == "home" %}
 
-                <a href="{% url 'register' %}" class="btn">
-                    Register
-                </a>
+    <a href="{% url 'register' %}" class="btn">
+        Register
+    </a>
 
-                <a href="{% url 'login' %}" class="btn btn-outline">
-                    Login
-                </a>
+    <a href="{% url 'login' %}" class="btn btn-outline">
+        Login
+    </a>
 
-            {% else %}
+{% elif user.is_authenticated %}
 
-                <a href="{% url 'prediction' %}" class="btn">
-                    Prediction
-                </a>
+    <a href="{% url 'prediction' %}" class="btn">
+        Prediction
+    </a>
 
-                <a href="{% url 'logout' %}" class="btn btn-outline">
-                    Logout
-                </a>
+    <a href="{% url 'logout' %}" class="btn btn-outline">
+        Logout
+    </a>
 
-            {% endif %}
+{% endif %}
+
 
         </div>
 
     </nav>
+
 </header>
 
 <!-- ================= MESSAGES ================= -->
+
 {% if messages %}
+
 <div class="message-container">
 
     {% for message in messages %}
@@ -73,25 +75,33 @@
     {% endfor %}
 
 </div>
+
 {% endif %}
 
 <!-- ================= PAGE CONTENT ================= -->
+
 <main>
+
     {% block content %}
     {% endblock %}
+
 </main>
 
 <!-- ================= FOOTER ================= -->
+
 <footer class="footer">
 
     <div class="footer-container">
 
         <div class="footer-box">
+
             <h3>AI Health Predictor</h3>
+
             <p>
                 AI Health Risk Predictor helps users estimate their health risk using Artificial Intelligence.
                 Stay healthy and make informed decisions.
             </p>
+
         </div>
 
         <div class="footer-box">
@@ -101,11 +111,15 @@
             <ul>
 
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'prediction' %}">Prediction</a></li>
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
+
+                    <li><a href="{% url 'register' %}">Prediction</a></li>
+                    <li><a href="{% url 'login' %}">Logout</a></li>
+
                 {% else %}
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                    <li><a href="{% url 'register' %}">Register</a></li>
+
+                    <li><a href="{% url 'prediction' %}">Register</a></li>
+                    <li><a href="{% url 'logout' %}">Login</a></li>
+
                 {% endif %}
 
             </ul>

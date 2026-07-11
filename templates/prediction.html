@@ -1,82 +1,77 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Prediction</title>
 
-    <style>
-        body{
-            font-family: Arial, sans-serif;
-            background: white;
-            margin: 0;
-            padding: 30px;
-        }
+{% block content %}
 
-        h2{
-            text-align:center;
-            margin-bottom:20px;
-        }
+<section class="prediction-section">
 
-        form{
-            max-width:400px;
-            margin:auto;
-        }
+    <div class="prediction-box fade-in">
 
-        input, select{
-            width:100%;
-            padding:10px;
-            margin:8px 0;
-            border:1px solid #ccc;
-            border-radius:5px;
-            box-sizing:border-box;
-        }
+        <h2>Health Prediction</h2>
 
-        button{
-            width:100%;
-            padding:10px;
-            background:#2d7ef7;
-            color:white;
-            border:none;
-            border-radius:5px;
-            cursor:pointer;
-        }
+        <form method="POST">
 
-        button:hover{
-            background:#1f66d1;
-        }
-    </style>
-</head>
-<body>
+            {% csrf_token %}
 
-<h2>Health Prediction</h2>
+            <div class="form-group">
+                <input type="number"
+                       name="age"
+                       placeholder="Age"
+                       required>
+            </div>
 
-<form method="POST">
-    {% csrf_token %}
+            <div class="form-group">
+                <select name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
 
-    <input type="number" name="age" placeholder="Age" required>
+            <div class="form-group">
+                <input type="number"
+                       name="height"
+                       placeholder="Height (cm)"
+                       required>
+            </div>
 
-    <select name="gender" required>
-        <option value="">Select Gender</option>
-        <option>Male</option>
-        <option>Female</option>
-    </select>
+            <div class="form-group">
+                <input type="number"
+                       name="weight"
+                       placeholder="Weight (kg)"
+                       required>
+            </div>
 
-    <input type="number" name="height" placeholder="Height (cm)" required>
-    <input type="number" name="weight" placeholder="Weight (kg)" required>
-    <select name="blood_pressure" required>
-    <option value="">Select Blood Pressure</option>
-    <option value="Normal">Normal</option>
-    <option value="High">High</option>
-</select>
-    <input type="number" name="sugar_level" placeholder="Blood Sugar" required>
-    <input type="number" name="heart_rate" placeholder="Heart Rate" required>
+            <div class="form-group">
+                <select name="blood_pressure" required>
+                    <option value="">Select Blood Pressure</option>
+                    <option value="Normal">Normal</option>
+                    <option value="High">High</option>
+                </select>
+            </div>
 
-    <button type="submit">
-        Predict
-    </button>
-</form>
+            <div class="form-group">
+                <input type="number"
+                       name="sugar_level"
+                       placeholder="Blood Sugar"
+                       required>
+            </div>
 
-</body>
-</html>
+            <div class="form-group">
+                <input type="number"
+                       name="heart_rate"
+                       placeholder="Heart Rate"
+                       required>
+            </div>
+
+            <button type="submit">
+                Predict Health Risk
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

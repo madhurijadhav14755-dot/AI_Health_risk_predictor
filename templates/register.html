@@ -1,91 +1,83 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
+{% block content %}
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background: #ffffff;   /* WHITE BACKGROUND */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<section class="form-section">
 
-        .box {
-            width: 350px;
-            padding: 25px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
+    <div class="form-container fade-in">
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+        <h2>Health Register</h2>
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+        {% if messages %}
+            {% for message in messages %}
+                <p class="msg {{ message.tags }}">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        {% endif %}
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        <form method="POST">
 
-        button:hover {
-            background: #218838;
-        }
+            {% csrf_token %}
 
-        .msg {
-            text-align: center;
-            color: red;
-            margin-bottom: 10px;
-        }
-    </style>
+            <div class="form-group">
+                <input type="text"
+                       name="first_name"
+                       placeholder="First Name"
+                       required>
+            </div>
 
-</head>
+            <div class="form-group">
+                <input type="text"
+                       name="last_name"
+                       placeholder="Last Name"
+                       required>
+            </div>
 
-<body>
+            <div class="form-group">
+                <input type="text"
+                       name="username"
+                       placeholder="Username"
+                       required>
+            </div>
 
-<div class="box">
+            <div class="form-group">
+                <input type="email"
+                       name="email"
+                       placeholder="Email Address"
+                       required>
+            </div>
 
-    <h2>Health Register</h2>
+            <div class="form-group">
+                <input type="password"
+                       name="password"
+                       placeholder="Password"
+                       required>
+            </div>
 
-    {% for message in messages %}
-    <p class="msg {{ message.tags }}">{{ message }}</p>
-{% endfor %}
-    <form method="POST">
-        {% csrf_token %}
+            <div class="form-group">
+                <input type="password"
+                       name="confirm_password"
+                       placeholder="Confirm Password"
+                       required>
+            </div>
 
-        <input type="text" name="first_name" placeholder="First Name" required>
-        <input type="text" name="last_name" placeholder="Last Name" required>
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+            <button type="submit">
+                Register
+            </button>
 
-        <button type="submit">Register</button>
-    </form>
+        </form>
 
-</div>
+        <div class="form-footer">
+            Already have an account?
+            <a href="{% url 'login' %}">
+                Login
+            </a>
+        </div>
 
-</body>
-</html>
+    </div>
+
+</section>
+
+{% endblock %}
