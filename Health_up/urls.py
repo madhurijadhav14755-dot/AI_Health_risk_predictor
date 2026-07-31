@@ -1,5 +1,14 @@
 from django.urls import path
 from . import views
+import joblib
+import os
+
+MODEL_PATH = os.path.join(
+    "ml_model",
+    "model.pkl"
+)
+
+model = joblib.load(MODEL_PATH)
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -16,4 +25,7 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
 
     path('medicine/', views.medicine_info, name='medicine'),
+    path("food/", views.medicine_info, name="food"),
+    
+    path("download-pdf/", views.download_pdf, name="download_pdf"),
 ]

@@ -21,7 +21,6 @@
             Enter your health details and receive instant prediction.
         </p>
 
-        <!-- FIXED FLOW BUTTON -->
         <a href="{% url 'register' %}" class="btn">
             Get Started
         </a>
@@ -29,31 +28,38 @@
     </div>
 
     <div class="hero-center">
-        <img src="{% static 'images/doctor.jpg' %}" class="hero-img">
+        <img src="{% static 'images/doctor.jpg' %}" alt="Doctor" class="hero-img">
     </div>
 
 </section>
 
-<!-- FEATURES -->
-<section class="dashboard">
+<!-- ================= FEATURES ================= -->
+
+<section class="features">
 
     <h2 class="section-title">Our Features</h2>
 
-    <div class="card">
-        <h3>🧠 AI Analysis</h3>
-        <p>Machine Learning model analyzes your health data.</p>
-    </div>
+    <div class="feature-container">
 
-    <div class="card">
-        <h3>⚡ Instant Prediction</h3>
-        <p>Get result within seconds.</p>
-    </div>
+        <div class="feature-card">
+            <div class="icon">🧠</div>
+            <h3>AI Analysis</h3>
+            <p>Machine Learning model analyzes your health data accurately.</p>
+        </div>
 
-    <div class="card">
-        <h3>🔒 Secure Data</h3>
-        <p>Protected using Django authentication.</p>
+        <div class="feature-card">
+            <div class="icon">⚡</div>
+            <h3>Instant Prediction</h3>
+            <p>Get your health risk prediction within seconds.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="icon">🔒</div>
+            <h3>Secure Data</h3>
+            <p>Your information is protected using Django authentication.</p>
+        </div>
+
     </div>
 
 </section>
-
 {% endblock %}

@@ -3,33 +3,115 @@
 
 {% block content %}
 
-<section class="result-section">
+<section class="prediction-section">
 
-    <div class="result-card fade-in">
+    <div class="prediction-box fade-in">
 
-        <h2>Medicine Information</h2>
+        <h2>💊 Medicine Information</h2>
 
         <form method="POST">
-
             {% csrf_token %}
 
             <div class="form-group">
                 <input
                     type="text"
                     name="medicine"
-                    placeholder="Enter Medicine Name"
-                    required>
+                    placeholder="Enter Medicine Name (Example: Dolo 650)">
             </div>
 
             <button type="submit">
-                Search Medicine
+                🔍 Search Medicine
+            </button>
+        </form>
+
+        <hr>
+
+        <h2>🥗 Food Nutrition Information</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <input
+                    type="text"
+                    name="food_name"
+                    placeholder="Enter Food Name (Example: Apple)">
+            </div>
+
+            <button type="submit">
+                🔍 Search Food
             </button>
 
         </form>
 
+        <!-- ================= FOOD RESULT ================= -->
+
+        {% if food %}
+
+        <table class="result-table">
+
+            <tr>
+                <th>Nutrient</th>
+                <th>Value</th>
+            </tr>
+
+            <tr>
+                <td>🍎 Food Name</td>
+                <td>{{ food.name }}</td>
+            </tr>
+
+            <tr>
+                <td>🔥 Calories</td>
+                <td>{{ food.calories }}</td>
+            </tr>
+
+            <tr>
+                <td>🥩 Protein</td>
+                <td>{{ food.protein }}</td>
+            </tr>
+
+            {% for item in food.nutrients %}
+
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.value }} {{ item.unit }}</td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        <div class="button-group">
+
+            <a href="{% url 'medicine' %}" class="btn">
+                🔄 Search Again
+            </a>
+
+            <a href="{% url 'download_pdf' %}" class="btn">
+                📄 Download PDF
+            </a>
+
+            <a href="{% url 'home' %}" class="btn btn-home">
+        🏠 Back to Home
+             </a>
+
+        </div>
+
+        {% endif %}
+
+        <!-- ================= MEDICINE RESULT ================= -->
+
         {% if data %}
 
-            <table class="mt-3">
+            {% if data.error %}
+
+                <div class="error-box">
+                    {{ data.error }}
+                </div>
+
+            {% else %}
+
+            <table class="result-table">
 
                 <tr>
                     <th>Field</th>
@@ -37,28 +119,64 @@
                 </tr>
 
                 <tr>
-                    <td><b>Name</b></td>
+                    <td>💊 Medicine Name</td>
                     <td>{{ data.name }}</td>
                 </tr>
 
                 <tr>
-                    <td><b>Purpose</b></td>
+                    <td>🏷 Category</td>
+                    <td>{{ data.category }}</td>
+                </tr>
+
+                <tr>
+                    <td>🧪 Generic Name</td>
+                    <td>{{ data.generic_name }}</td>
+                </tr>
+
+                <tr>
+                    <td>📋 Purpose</td>
                     <td>{{ data.purpose }}</td>
                 </tr>
 
                 <tr>
-                    <td><b>Warning</b></td>
-                    <td>{{ data.warning }}</td>
+                    <td>💉 Dosage</td>
+                    <td>{{ data.dosage }}</td>
                 </tr>
 
-                {% if data.error %}
                 <tr>
-                    <td><b>Status</b></td>
-                    <td>{{ data.error }}</td>
+                    <td>⚠ Side Effects</td>
+                    <td>{{ data.side_effects }}</td>
                 </tr>
-                {% endif %}
+
+                <tr>
+                    <td>🩺 Precautions</td>
+                    <td>{{ data.precautions }}</td>
+                </tr>
+
+                <tr>
+                    <td>📦 Storage</td>
+                    <td>{{ data.storage }}</td>
+                </tr>
 
             </table>
+
+            <div class="button-group">
+
+                <a href="{% url 'medicine' %}" class="btn">
+                    🔄 Search Again
+                </a>
+
+                <a href="{% url 'download_pdf' %}" class="btn">
+                    📄 Download PDF
+                </a>
+
+                <a href="{% url 'home' %}" class="btn">
+                    ⬅ Back
+                </a>
+
+            </div>
+
+            {% endif %}
 
         {% endif %}
 

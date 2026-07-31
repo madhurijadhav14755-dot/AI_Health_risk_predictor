@@ -7,22 +7,22 @@
 
     <div class="result-card zoom-in">
 
-        <h2>Health Prediction Result</h2>
+        <h2>🏥 AI Health Analysis Report</h2>
 
         {% if risk == "Low" %}
-            <h3 style="color:green;">🟢 Low Risk</h3>
+            <h3 style="color:green;">🟢 LOW RISK</h3>
 
         {% elif risk == "Medium" %}
-            <h3 style="color:orange;">🟡 Medium Risk</h3>
+            <h3 style="color:orange;">🟡 MEDIUM RISK</h3>
 
         {% elif risk == "High" %}
-            <h3 style="color:red;">🔴 High Risk</h3>
+            <h3 style="color:red;">🔴 HIGH RISK</h3>
 
         {% else %}
             <h3>No Prediction Available</h3>
         {% endif %}
 
-        <table>
+        <table class="result-table">
 
             <tr>
                 <th>Parameter</th>
@@ -30,42 +30,199 @@
             </tr>
 
             <tr>
-                <td><b>Health Score</b></td>
-                <td>{{ score }}%</td>
+                <td><b>Possible Disease</b></td>
+                <td>{{ disease }}</td>
+            </tr>
+
+            <tr>
+                <td><b>Risk Level</b></td>
+                <td>{{ risk }}</td>
+            </tr>
+
+            <tr>
+                <td><b>Prediction Confidence</b></td>
+                <td>{{ confidence }}%</td>
+            </tr>
+
+            <tr>
+                <td><b>Age</b></td>
+                <td>{{ age }}</td>
+            </tr>
+
+            <tr>
+                <td><b>Gender</b></td>
+                <td>{{ gender }}</td>
+            </tr>
+
+            <tr>
+                <td><b>Date</b></td>
+                <td>{{ date }}</td>
             </tr>
 
             <tr>
                 <td><b>BMI</b></td>
-                <td>{{ bmi }}</td>
+                <td>{{ bmi }} ({{ bmi_category }})</td>
+            </tr>
+            <tr>
+    <td><b>💚 Health Score</b></td>
+    <td>
+
+        {% if health_score >= 80 %}
+            🟢 <b>{{ health_score }}/100</b>
+            ({{ health_status }})
+
+        {% elif health_score >= 60 %}
+            🟡 <b>{{ health_score }}/100</b>
+            ({{ health_status }})
+
+        {% elif health_score >= 40 %}
+            🟠 <b>{{ health_score }}/100</b>
+            ({{ health_status }})
+
+        {% else %}
+            🔴 <b>{{ health_score }}/100</b>
+            ({{ health_status }})
+
+        {% endif %}
+
+    </td>
+</tr>
+            <tr>
+    <td><b>💧 Daily Water Intake</b></td>
+    <td>
+        <b>{{ water_intake }} Liters / Day</b><br>
+
+        {% if water_status == "Drink More Water" %}
+            🔴 {{ water_status }}
+
+        {% elif water_status == "Good Hydration" %}
+            🟢 {{ water_status }}
+
+        {% else %}
+            🔵 {{ water_status }}
+
+        {% endif %}
+    </td>
+</tr>
+
+<tr>
+    <td><b>⚖️ Ideal Weight</b></td>
+
+    <td>
+        {{ ideal_weight_min }} kg - {{ ideal_weight_max }} kg
+        <br><br>
+
+        {% if weight_status == "Healthy Weight" %}
+            🟢 {{ weight_status }}
+
+        {% elif weight_status == "Underweight" %}
+            🟡 {{ weight_status }}
+
+        {% else %}
+            🔴 {{ weight_status }}
+
+        {% endif %}
+    </td>
+</tr>
+            <tr>
+    <td><b>🍬 Sugar Level Analysis</b></td>
+    <td>
+        {% if sugar_status == "High Risk" %}
+            🔴 {{ sugar_status }}
+        {% elif sugar_status == "Medium Risk" %}
+            🟠 {{ sugar_status }}
+        {% else %}
+            🟢 {{ sugar_status }}
+        {% endif %}
+    </td>
+</tr>
+
+
+<tr>
+    <td><b>🩸 Blood Pressure Analysis</b></td>
+    <td>
+        {% if bp_status == "High Risk" %}
+            🔴 {{ bp_status }}
+        {% elif bp_status == "Medium Risk" %}
+            🟠 {{ bp_status }}
+        {% else %}
+            🟢 {{ bp_status }}
+        {% endif %}
+    </td>
+</tr>
+
+
+<tr>
+    <td><b>❤️ Heart Rate Analysis</b></td>
+    <td>
+        {% if heart_status == "High Risk" %}
+            🔴 {{ heart_status }}
+        {% elif heart_status == "Medium Risk" %}
+            🟠 {{ heart_status }}
+        {% else %}
+            🟢 {{ heart_status }}
+        {% endif %}
+    </td>
+</tr>
+
+            <tr>
+                <td><b>Selected Symptoms</b></td>
+                <td>
+                    <ul>
+                        {% for symptom in symptoms %}
+                            <li>✅ {{ symptom }}</li>
+                        {% empty %}
+                            <li>No Symptoms Selected</li>
+                        {% endfor %}
+                    </ul>
+                </td>
             </tr>
 
             <tr>
-                <td><b>Status</b></td>
-                <td>{{ status }}</td>
+                <td><b>AI Analysis</b></td>
+                <td>{{ analysis }}</td>
             </tr>
 
             <tr>
-                <td><b>Recommendation</b></td>
+                <td><b>Recommended Tests</b></td>
+                <td>
+                    <ul>
+                        {% for test in tests %}
+                            <li>✔ {{ test }}</li>
+                        {% empty %}
+                            <li>No Tests</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td><b>Health Suggestion</b></td>
                 <td>{{ recommendation }}</td>
             </tr>
 
+            <tr>
+                <td><b>Disclaimer</b></td>
+                <td>{{ tip }}</td>
+            </tr>
+
+
+
         </table>
 
-        <div class="mt-3">
+        <br>
 
-            <a href="{% url 'prediction' %}" class="btn">
-                Predict Again
-            </a>
+        <a href="{% url 'prediction' %}" class="btn">
+            Predict Again
+        </a>
 
-            <a href="{% url 'medicine' %}" class="btn">
-                Medicine Info
-            </a>
+        <a href="{% url 'medicine' %}" class="btn">
+            Medicine Info
+        </a>
 
-            <a href="{% url 'home' %}" class="btn">
-                Home
-            </a>
-
-        </div>
+        <a href="{% url 'download_pdf' %}" class="btn">
+            Download PDF
+        </a>
 
     </div>
 

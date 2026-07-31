@@ -9,138 +9,424 @@
 
     <div class="hero-left">
 
-        <span class="badge">User Dashboard</span>
+        <span class="badge">AI Health Dashboard</span>
 
         <h1>
-            Welcome to
-            <span>AI Dashboard</span>
+            Welcome,
+            <span>{{ request.user.username }}</span>
         </h1>
 
         <p>
-            View all your health predictions, monitor your AI health reports,
-            and keep track of your risk analysis in one place.
+            Monitor your health reports, AI predictions,
+            and track your overall health status.
         </p>
 
         <a href="{% url 'prediction' %}" class="btn">
-            New Prediction
+            🩺 New Prediction
         </a>
 
     </div>
 
     <div class="hero-right">
 
-        <img src="{% static 'images/dashboard.png' %}"
-             alt="Dashboard"
-             class="hero-img">
+        <img src="{% static 'images/dashboard.jpg' %}"
+             class="hero-img"
+             alt="Dashboard">
 
     </div>
 
 </section>
 
-<!-- ================= DASHBOARD STATS ================= -->
+
+<!-- ================= DASHBOARD CARDS ================= -->
 
 <section class="dashboard">
 
+    <!-- Total Prediction -->
+
     <div class="card">
+
         <h3>📊 Total Predictions</h3>
-        <h2>{{ total_predictions }}</h2>
+
+        <h1>{{ total_predictions }}</h1>
+
+        <p>Total AI Predictions</p>
+
     </div>
 
+
+    <!-- Low Risk -->
+
     <div class="card">
+
         <h3>🟢 Low Risk</h3>
-        <h2>{{ low_risk }}</h2>
+
+        <h1>{{ low_risk }}</h1>
+
+        <p>Healthy Predictions</p>
+
     </div>
 
-    <div class="card">
-        <h3>🟠 Medium Risk</h3>
-        <h2>{{ medium_risk }}</h2>
-    </div>
+
+    <!-- Medium Risk -->
 
     <div class="card">
+
+        <h3>🟡 Medium Risk</h3>
+
+        <h1>{{ medium_risk }}</h1>
+
+        <p>Need Care</p>
+
+    </div>
+
+
+    <!-- High Risk -->
+
+    <div class="card">
+
         <h3>🔴 High Risk</h3>
-        <h2>{{ high_risk }}</h2>
+
+        <h1>{{ high_risk }}</h1>
+
+        <p>Doctor Consultation</p>
+
+    </div>
+
+
+    <!-- Last Prediction -->
+
+    <div class="card">
+
+        <h3>📅 Last Prediction</h3>
+
+        {% if last_prediction %}
+
+            <h2>
+                {{ last_prediction.created_at|date:"d M Y" }}
+            </h2>
+
+            <p>
+                {{ last_prediction.risk }} Risk
+            </p>
+
+        {% else %}
+
+            <h2>No Data</h2>
+
+        {% endif %}
+
     </div>
 
 </section>
 
-<!-- ================= PREDICTION HISTORY ================= -->
+<!-- ================= CURRENT PREDICTION ================= -->
 
 <section class="prediction-box">
 
-    <h2>Prediction History</h2>
+    <h2>🩺 Current Health Prediction</h2>
 
-    <table>
+    {% if current_prediction %}
 
-        <thead>
+    <table class="result-table">
+
+        <tr>
+            <th>Parameter</th>
+            <th>Result</th>
+        </tr>
+
+        <tr>
+            <td>👤 Age</td>
+            <td>{{ current_prediction.age }} Years</td>
+        </tr>
+
+        <tr>
+            <td>🚻 Gender</td>
+            <td>{{ current_prediction.gender }}</td>
+        </tr>
+
+        <tr>
+            <td>⚖ BMI</td>
+            <td>
+                {{ current_prediction.bmi }}
+                ({{ current_prediction.bmi_category }})
+            </td>
+        </tr>
+
+        <tr>
+            <td>🍬 Sugar Level</td>
+            <td>{{ current_prediction.sugar_level }}</td>
+        </tr>
+
+        <tr>
+            <td>🩸 Blood Pressure</td>
+            <td>{{ current_prediction.blood_pressure }}</td>
+        </tr>
+
+        <tr>
+            <td>❤️ Heart Rate</td>
+            <td>{{ current_prediction.heart_rate }}</td>
+        </tr>
+
+        <tr>
+            <td>🦠 Predicted Disease</td>
+            <td>{{ current_prediction.disease }}</td>
+        </tr>
+
+        <tr>
+            <td>⚠ Risk Level</td>
+            <td>
+
+                {% if current_prediction.risk == "Low" %}
+                    <span style="color:green;font-weight:bold;">
+                        🟢 LOW
+                    </span>
+
+                {% elif current_prediction.risk == "Medium" %}
+                    <span style="color:orange;font-weight:bold;">
+                        🟡 MEDIUM
+                    </span>
+
+                {% else %}
+                    <span style="color:red;font-weight:bold;">
+                        🔴 HIGH
+                    </span>
+                {% endif %}
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>🎯 Confidence</td>
+            <td>{{ current_prediction.confidence }}%</td>
+        </tr>
+
+        <tr>
+            <td>📅 Prediction Date</td>
+            <td>
+                {{ current_prediction.created_at|date:"d M Y" }}
+            </td>
+        </tr>
+
+    </table>
+
+    {% else %}
+
+        <div style="text-align:center;padding:40px;">
+
+            <h3>😔 No Prediction Available</h3>
+
+            <p>
+                Click on
+                <b>New Prediction</b>
+                to generate your first AI health report.
+            </p>
+
+            <a href="{% url 'prediction' %}" class="btn">
+                New Prediction
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+<!-- ================= RISK ANALYSIS CHARTS ================= -->
+
+<section class="prediction-box">
+
+    <h2>📊 Risk Analysis</h2>
+
+    <div class="chart-wrapper">
+
+       <div class="chart-box">
+
+    <h3>Bar Chart</h3>
+
+    <div style="height:350px;">
+        <canvas id="barChart"></canvas>
+    </div>
+
+</div>
+
+        <div class="chart-box">
+
+    <h3>Pie Chart</h3>
+
+    <div style="width:350px;height:350px;margin:auto;">
+        <canvas id="pieChart"></canvas>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const labels = ["Low Risk", "Medium Risk", "High Risk"];
+
+const values = [
+    {{ low_risk }},
+    {{ medium_risk }},
+    {{ high_risk }}
+];
+
+// ================= BAR CHART =================
+
+new Chart(document.getElementById("barChart"), {
+    type: "bar",
+
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Predictions",
+            data: values,
+            borderWidth: 2
+        }]
+    },
+
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1
+                }
+            }
+        }
+    }
+});
+
+// ================= PIE CHART =================
+
+new Chart(document.getElementById("pieChart"), {
+    type: "pie",
+
+    data: {
+        labels: labels,
+        datasets: [{
+            data: values
+        }]
+    },
+
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+
+        plugins: {
+            legend: {
+                position: "bottom"
+            }
+        }
+    }
+});
+
+</script>
+<!-- ================= PREVIOUS PREDICTION HISTORY ================= -->
+
+<section class="prediction-box">
+
+    <h2>📜 Previous Prediction History</h2>
+
+    <table class="result-table">
+
+        <tr>
+    
+    <th>Date</th>
+    <th>Age</th>
+    <th>Gender</th>
+    <th>BMI</th>
+    <th>Sugar</th>
+    <th>Blood Pressure</th>
+    <th>Heart Rate</th>
+    <th>Disease</th>
+    <th>Risk</th>
+    <th>Health Status</th>
+</tr>
+        </tr>
+
+        {% if previous_predictions %}
+
+            {% for p in previous_predictions %}
 
             <tr>
 
-                <th>Age</th>
-                <th>BMI</th>
-                <th>Glucose</th>
-                <th>Blood Pressure</th>
-                <th>Prediction</th>
-                <th>Date</th>
+                <td>{{ p.created_at|date:"d M Y" }}</td>
+<td>{{ p.age }}</td>
+<td>{{ p.gender }}</td>
+<td>{{ p.bmi }}</td>
+<td>{{ p.sugar_level }}</td>
+<td>{{ p.blood_pressure }}</td>
+<td>{{ p.heart_rate }}</td>
+<td>{{ p.disease }}</td>
+<td>{{ p.risk }}</td>
+
+
+        <td>
+    {% if p.risk == "Low" %}
+        <span style="color:green;font-weight:bold;">🟢 Healthy</span>
+
+    {% elif p.risk == "Medium" %}
+        <span style="color:orange;font-weight:bold;">🟡 Need Care</span>
+
+    {% else %}
+        <span style="color:red;font-weight:bold;">🔴 Critical</span>
+
+    {% endif %}
+</td>
 
             </tr>
 
-        </thead>
+            {% endfor %}
 
-        <tbody>
+        {% else %}
 
-            {% if predictions %}
+            <tr>
 
-                {% for p in predictions %}
+                <td colspan="5" style="text-align:center;">
 
-                <tr>
+                    No Previous Prediction Available
 
-                    <td>{{ p.age }}</td>
+                </td>
 
-                    <td>{{ p.bmi }}</td>
+            </tr>
 
-                    <td>{{ p.glucose }}</td>
-
-                    <td>{{ p.blood_pressure }}</td>
-
-                    <td>
-
-                        {% if p.prediction == "LOW RISK" %}
-
-                            🟢 {{ p.prediction }}
-
-                        {% elif p.prediction == "MEDIUM RISK" %}
-
-                            🟠 {{ p.prediction }}
-
-                        {% else %}
-
-                            🔴 {{ p.prediction }}
-
-                        {% endif %}
-
-                    </td>
-
-                    <td>{{ p.created_at|date:"d M Y" }}</td>
-
-                </tr>
-
-                {% endfor %}
-
-            {% else %}
-
-                <tr>
-
-                    <td colspan="6">
-                        No Prediction History Available
-                    </td>
-
-                </tr>
-
-            {% endif %}
-
-        </tbody>
+        {% endif %}
 
     </table>
+
+</section>
+
+
+
+<!-- ================= ACTION BUTTONS ================= -->
+
+<section style="text-align:center;margin:40px 0;">
+
+    <a href="{% url 'prediction' %}" class="btn">
+        🩺 New Prediction
+    </a>
+
+    <a href="{% url 'download_pdf' %}" class="btn">
+        📄 Download PDF
+    </a>
+
+    <a href="{% url 'medicine' %}" class="btn">
+        💊 Medicine Info
+    </a>
+
+    <a href="{% url 'home' %}" class="btn">
+        🏠 Home
+    </a>
 
 </section>
 
